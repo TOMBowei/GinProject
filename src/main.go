@@ -2,6 +2,7 @@ package main
 
 import (
 	"GoDemo1/routers"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -16,6 +17,19 @@ type UserInfo struct {
 	Password string `json:"password" form:"password"`
 }
 
+// 路由中间件，Next()之后的执行顺序是从后向前。
+func initMiddlewareOne(c *gin.Context) {
+	fmt.Println("1-这是中间件-initMiddlewareOne")
+	c.Next()
+	fmt.Println("3-这是中间件-initMiddlewareOne")
+}
+
+func initMiddlewareTwo(c *gin.Context) {
+	fmt.Println("1-这是中间件-initMiddlewareTwo")
+	c.Next()
+	fmt.Println("3-这是中间件-initMiddlewareTwo")
+}
+
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
@@ -23,6 +37,9 @@ func main() {
 	routers.DefaultRoutersInit(r)
 	routers.AdminRoutersInit(r)
 	routers.ApiRoutersInit(r)
+
+	//配置全局中间件
+	r.Use(initMiddlewareOne, initMiddlewareTwo)
 
 	r.GET("/json", func(c *gin.Context) {
 		c.JSON(200, map[string]interface{}{
@@ -68,6 +85,18 @@ func main() {
 			//fmt.Println(*user)
 		}
 	})
+	//中间件
+	//r.GET("/news3", initMiddlewareOne, initMiddlewareTwo, func(c *gin.Context) {
+	//	name := c.Query("name")
+	//	age := c.Query("age")
+	//	page := c.DefaultQuery("page", "1")
+	//	fmt.Println("2-这是路由函数")
+	//	c.JSON(http.StatusOK, gin.H{
+	//		"name": name,
+	//		"age":  age,
+	//		"page": page,
+	//	})
+	//})
 
 	//动态路由
 	r.GET("list/:cid", func(c *gin.Context) {

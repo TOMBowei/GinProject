@@ -41,3 +41,18 @@ func EditUser(c *gin.Context) {
 		c.JSON(http.StatusOK, userinfo)
 	}
 }
+
+func (con UserController) ShowUser(c *gin.Context) {
+	//得到的是空接口类型，需要使用类型断言。
+	username, err := c.Get("username")
+	if err != true {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": 400,
+			"msg":  "参数错误",
+		})
+	} else {
+		c.JSON(http.StatusOK, gin.H{
+			"username": username,
+		})
+	}
+}
