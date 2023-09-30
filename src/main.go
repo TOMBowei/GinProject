@@ -61,17 +61,6 @@ func main() {
 		})
 	})
 
-	r.GET("/news2", func(c *gin.Context) {
-		name := c.Query("name")
-		age := c.Query("age")
-		page := c.DefaultQuery("page", "1")
-		c.JSON(http.StatusOK, gin.H{
-			"name": name,
-			"age":  age,
-			"page": page,
-		})
-	})
-
 	r.GET("/getuser", func(c *gin.Context) {
 		user := &UserInfo{}
 		//fmt.Println(*user)
