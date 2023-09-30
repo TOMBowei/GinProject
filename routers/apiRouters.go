@@ -10,5 +10,6 @@ func ApiRoutersInit(r *gin.Engine) {
 	{
 		apiRouters.GET("/", api.ApiController{}.Index)
 		apiRouters.GET("/addArticle", api.ApiController{}.AddArticle)
+		apiRouters.GET("/showTime", api.ApiController{}.ShowTime)
 	}
 }
