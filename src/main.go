@@ -3,6 +3,8 @@ package main
 import (
 	"GoDemo1/routers"
 	"fmt"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -33,7 +35,12 @@ func initMiddlewareTwo(c *gin.Context) {
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*")
-	//路由分组
+	//一定要在路由分组之前加入，否则无法读取到session
+	//配置session中间件
+	//创建基于cookie的存储引擎，secret参数是用于加密的密钥
+	store := cookie.NewStore([]byte("secret"))
+	//设置session中间件，参数mysession根据自己的需要设置，这里使用默认值，store是前面创建的存储引擎
+	r.Use(sessions.Sessions("mysession", store)) //路由分组
 	routers.DefaultRoutersInit(r)
 	routers.AdminRoutersInit(r)
 	routers.ApiRoutersInit(r)

@@ -1,6 +1,7 @@
 package index
 
 import (
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -16,6 +17,25 @@ func (con IndexController) DeleteCookie(c *gin.Context) {
 	c.SetCookie("username", "Xiaobo", -1, "/", "localhost", false, true)
 	c.JSON(http.StatusOK, gin.H{
 		"msg": "delete cookie success",
+	})
+}
+
+// 配置session中间件
+func (con IndexController) Session(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Set("username", "Xiaobo")
+	session.Save()
+	c.JSON(http.StatusOK, gin.H{
+		"msg": "set session success",
+	})
+}
+
+// 获取session
+func (con IndexController) GetSession(c *gin.Context) {
+	session := sessions.Default(c)
+	username := session.Get("username")
+	c.JSON(http.StatusOK, gin.H{
+		"username": username,
 	})
 }
 
