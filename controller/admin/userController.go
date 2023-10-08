@@ -60,11 +60,19 @@ func (con UserController) ShowUser(c *gin.Context) {
 
 // gorm相关
 func (con UserController) Adduser(c *gin.Context) {
+	//user := &models.User{
+	//	Username: "丁丁",
+	//	Age:      2,
+	//	Email:    "123",
+	//	AddTime:  1234567890,
+	//}
+	//models.DB.Create(&user)
+
 	user := &models.User{
-		Username: "丁丁",
-		Age:      2,
+		Username: "啦啦",
+		Age:      20,
 		Email:    "123",
-		AddTime:  1234567890,
+		AddTime:  1,
 	}
 	models.DB.Create(&user)
 
@@ -75,6 +83,20 @@ func (con UserController) Adduser(c *gin.Context) {
 }
 
 func (con UserController) Edituser(c *gin.Context) {
+	////保存所有数据
+	//user := models.User{Id: 1}
+	//models.DB.Find(&user)
+	//user.Age = 18
+	//models.DB.Save(&user)
+	//
+	//c.JSON(http.StatusOK, gin.H{
+	//	"code":   200,
+	//	"msg":    "修改成功",
+	//	"result": user,
+	//})
+	//	更新单个字段
+	user := models.User{}
+	models.DB.Model(&user).Where("id=?", 1).Update("age", 20)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "修改成功",
@@ -82,6 +104,9 @@ func (con UserController) Edituser(c *gin.Context) {
 }
 
 func (con UserController) Deleteuser(c *gin.Context) {
+	//删除数据
+	user := models.User{}
+	models.DB.Where("id=?", 3).Delete(&user)
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "删除成功",
