@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"GoDemo1/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -55,4 +56,53 @@ func (con UserController) ShowUser(c *gin.Context) {
 			"username": username,
 		})
 	}
+}
+
+// gorm相关
+func (con UserController) Adduser(c *gin.Context) {
+	user := &models.User{
+		Username: "丁丁",
+		Age:      2,
+		Email:    "123",
+		AddTime:  1234567890,
+	}
+	models.DB.Create(&user)
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "添加成功",
+	})
+}
+
+func (con UserController) Edituser(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "修改成功",
+	})
+}
+
+func (con UserController) Deleteuser(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "删除成功",
+	})
+}
+
+func (con UserController) Listuser(c *gin.Context) {
+	//查询数据库
+	//userList := models.User{}
+	//models.DB.Find(&userList)
+	//c.JSON(http.StatusOK, gin.H{
+	//	"code":   200,
+	//	"msg":    "获取成功",
+	//	"result": userList,
+	//})
+	//	查询年龄小于20的用户
+	userList := []models.User{}
+	models.DB.Where("age<?", 20).Find(&userList)
+	c.JSON(http.StatusOK, gin.H{
+		"code":   200,
+		"msg":    "获取成功",
+		"result": userList,
+	})
 }

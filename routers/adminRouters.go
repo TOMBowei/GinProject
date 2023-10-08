@@ -17,5 +17,10 @@ func AdminRoutersInit(r *gin.Engine) {
 		adminRouters.GET("/adduser", admin.UserController{}.Add)
 		adminRouters.GET("/edituser", admin.EditUser)
 		adminRouters.GET("/showuser", admin.UserController{}.ShowUser)
+		adminRouters.GET("/getuser", admin.UserController{}.Listuser)
+		adminRouters.GET("/adduser_1", admin.UserController{}.Adduser)
+		adminRouters.GET("/deleteuser", admin.UserController{}.Deleteuser)
+		adminRouters.GET("/edituser_1", admin.UserController{}.Edituser)
+
 	}
 }
