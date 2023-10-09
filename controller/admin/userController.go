@@ -123,8 +123,32 @@ func (con UserController) Listuser(c *gin.Context) {
 	//	"result": userList,
 	//})
 	//	查询年龄小于20的用户
+	//userList := []models.User{}
+	//models.DB.Where("age<?", 20).Find(&userList)
+	//c.JSON(http.StatusOK, gin.H{
+	//	"code":   200,
+	//	"msg":    "获取成功",
+	//	"result": userList,
+	//})
+	//	指定返回字段
+	//userList := []models.User{}
+	//models.DB.Select("username,email").Find(&userList)
+	//c.JSON(http.StatusOK, gin.H{
+	//	"code":   200,
+	//	"msg":    "获取成功",
+	//	"result": userList,
+	//})
+	//	order 排序
+	//userList := []models.User{}
+	//models.DB.Order("age desc").Find(&userList)
+	//c.JSON(http.StatusOK, gin.H{
+	//	"code":   200,
+	//	"msg":    "获取成功",
+	//	"result": userList,
+	//})
+	//	使用原生SQL
 	userList := []models.User{}
-	models.DB.Where("age<?", 20).Find(&userList)
+	models.DB.Raw("select * from user where age<?", 20).Scan(&userList)
 	c.JSON(http.StatusOK, gin.H{
 		"code":   200,
 		"msg":    "获取成功",
